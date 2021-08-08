@@ -1,0 +1,74 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <h1>Relação de funcionários</h1>
+    <div 
+        class='boxPessoa' 
+        v-for="(pessoa,idx) in pessoas" :key="idx" 
+        :class="{'ativoS' : pessoa.status}">
+        <p>
+            {{ pessoa.nome }}<br />
+            <span style="font-size: 12px">{{ pessoa.cargo }}</span>
+        </p>
+        <span style="float:right">
+            <button @click="pessoa.status = !pessoa.status">{{ pessoa.status ? "desativar": "ativar" }}</button>
+        </span>
+                
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            pessoas: [
+                {nome: 'Roberto Kalili', cargo: 'gerente', status: true},
+                {nome: 'Paulo Castro', cargo: 'supervisor', status: true},
+                {nome: 'Maria Paula', cargo: 'encarregado', status: true},
+                {nome: 'Carla Alexandra', cargo: 'encarregado', status: true}
+            ],
+            fCargo: '',
+            fAtivos: false         
+        },
+        methods: {
+            /* mudaStatus(idx) {
+                console.log(idx);
+                this.pessoas[idx].status = !this.pessoas[idx].status;
+            } */
+            
+        },
+        watch: {
+
+        }
+    })
+</script>
+
+<style>
+    .boxPessoa {
+        border: 1px solid #333;
+        background-color: #faa;
+        font-family: Verdana, sans-serif;
+        width: 250px;
+        margin: 10px 0px;
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    button {
+        background: #333;
+        color: fff;
+        padding: 7px 15px;
+        border: none;
+        box-shadow: 0px 0px 10px #333;
+        cursor: pointer;
+    }
+    p {
+        margin: 0px;
+        line-height: 150%;
+    }
+    .ativoS {
+        background-color: #acf;
+    }
+</style>

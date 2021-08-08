@@ -1,0 +1,34 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <p>{{ titulo }}</p>
+    <input type="text" value="" placeholder="Digite seu nome" />
+    <input type="text" v-model="titulo" />
+    <input type="text" @keyup="mostra" />
+    <input type="checkbox" v-model="muda" @click="mudaTitulo" />
+</div> 
+
+<!-- Comentário -->
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            titulo: "Título da página",
+            muda: false
+        },
+        methods: {
+            mudaTitulo() {
+                this.titulo = this.muda ? "Mudei o título" : "Título da página";
+            },
+            mostra(event) {
+                if(!isNaN(event.key))
+                    alert("clicou " + event.key);
+            }
+        }
+    })
+</script>
+
+<style>
+    
+</style>

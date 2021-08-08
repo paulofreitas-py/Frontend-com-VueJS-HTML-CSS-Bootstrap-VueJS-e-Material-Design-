@@ -1,0 +1,212 @@
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Georama:wght@200&display=swap" rel="stylesheet">
+
+<div id="app">
+    <h1>Novo</h1>
+    Nome: <input type='text' id='txtNome' /><br />
+    Cargo: <input type='text' id='txtCargo' /><br />
+    <button @click="inserir" style="width:200px">Inserir</button>
+    <p id="qtde">
+        Cadastrados:
+        <span style='font-size: 40px'>{{ pessoas.length }}</span>
+    </p>
+    <!-- <select>
+        <option v-for="(pais,idx) in paises" :key="idx" :value="pais.nome">
+            {{ pais.nome }}
+        </option>
+    </select> -->
+    <hr />
+    <label>Filtro</label><br />
+    <input type='text' v-model="filtro" />
+    <label><input type='checkbox' v-model="chkStatus" /> Somente Ativos</label>
+
+    <hr />
+    <div class="boxes">
+        <div class='box' v-for="(pessoa,idx) in pessoasF" :key="idx" :class="[{'ativo':pessoa.status},{'inativo':!pessoa.status}]">
+            <h3 style="margin:0px">{{ pessoa.nome }}</h3>
+            <h4 style="margin:0px;font-weight:bold">{{ pessoa.cargo }}</h4>
+            <hr />
+            <div v-if="pessoa.notas!=undefined" class="boxNotas">
+                <div v-for="nota in pessoa.notas" class="bNota">
+                    {{ nota }}
+                </div>
+            </div>
+            <button @click="pessoa.status = !pessoa.status" class="muda">Muda</button>
+        </div>
+    </div>
+
+
+    <pre>
+        <p>{{ pessoasF }}</p>
+    </pre>
+
+    <p>{{ filtro }}</p>
+</div>
+
+
+<script>
+    /* function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
+            }
+        }
+        rawFile.send(null);
+    } */
+    
+
+    new Vue({
+        el: '#app',
+        data: {
+            pessoas: [
+                {
+                nome : "Paulo Marino",
+                cargo : "Aluno",
+                status : true
+                },
+                {
+                nome : "Roberto Kalili",
+                cargo : "Professor",
+                status : true
+                },    
+                {
+                nome : "Carla Aparecida",
+                cargo : "Aluno",
+                status : true
+                },
+                {
+                nome : "Pedro Silvino",
+                cargo : "Aluno",
+                status : false
+                },    
+                {
+                nome : "Matheus Souza",
+                cargo : "Aluno",
+                status : true
+                },
+                {
+                nome : "Silvio Abreu",
+                cargo : "Aluno",
+                status : true
+                },    
+                {
+                nome : "Felipe André",
+                cargo : "Aluno",
+                status : true,
+                notas: [3,5,4,2]
+                },
+                {
+                nome : "Carlos Magno",
+                cargo : "Professor",
+                status : false
+                },                             
+                {
+                nome : "João Roberto",
+                cargo : "Diretor",
+                status : false
+                }                
+            ],
+            filtro: '',
+            chkStatus: false,
+            /* paises: [] */
+        },
+        methods: {
+            inserir() {
+                obj = new Object;
+                obj.nome    = document.getElementById("txtNome").value;
+                obj.cargo   = document.getElementById("txtCargo").value;
+                obj.status  = true;
+                console.log(obj);
+                this.pessoas.push(obj);
+            }
+        },
+        computed: {
+            pessoasF() {
+                let m = this.pessoas;
+                m = m.filter(
+                    mk => mk.nome.toLowerCase().indexOf(this.filtro.toLowerCase())!=-1
+                );
+                if(this.chkStatus) {
+                    m = m.filter(
+                        mk => mk.status
+                    );
+                }
+                
+                return m;
+            }
+        },
+        /* created: function() {
+            el = this;
+            readTextFile("./paises.json", function(text){
+                el.paises = JSON.parse(text);
+                console.log(el.paises);
+            });            
+        } */  
+    })
+</script>
+
+<style>
+    body {
+        font-family: 'Georama', sans-serif;
+    }
+    .box {
+        border: 1px solid #333;
+        margin: 10px;
+        box-shadow: 0px 0px 10px #ccc;
+        background-color: #d7d7d7;
+        padding: 10px;
+        width: 180px;
+        
+    }
+    .boxes {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    input[type=text] {
+        border: 1px solid #d7d7d7;
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .ativo {
+        background-color: #abf;
+    }
+    .inativo {
+        background-color: #f99;
+    }
+    button {
+        width: 100%;
+        margin: 5px 0px;
+        background-color: #333;
+        color: #fff;
+        padding: 5px 10px;
+        border: 1px;
+    }
+    #qtde {
+        position: absolute;
+        background-color: #d7d7d7;
+        text-align: center;
+        right: 20px;
+        top: 20px;
+        width: 100px;
+        height: 80px;
+        padding: 10px;
+    }
+    .boxNotas {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+    .bNota {
+        border: 1px solid #333; 
+        padding: 5px 13px;
+        text-align: center;
+        background-color: #fff;
+    }
+
+</style>

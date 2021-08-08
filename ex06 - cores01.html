@@ -1,0 +1,38 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <div class='box' 
+        :class="[{vermelho: valor == 4},{bordaRoxa: valor == 5}]"
+        @click="pinta = !pinta">
+    </div>
+    <p>{{valor}}</p>
+    <button @click="valor++">+</button>
+
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            pinta: false,
+            valor: 0
+        },
+    })
+</script>
+
+<style>
+    .box {
+        border: 1px solid #333;
+        width: 150px;
+        height: 150px;
+        background: #ccc;
+    }
+    .vermelho {
+        background-color: #f00;
+    }
+    .bordaRoxa {
+        border-color: purple;
+        border-width: 4px;
+    }
+</style>

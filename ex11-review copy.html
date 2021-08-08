@@ -1,0 +1,65 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <!-- array -->
+    <div v-for="time in times">
+        <p> {{ time }} </p>
+    </div>
+    
+    <!-- objeto -->
+    <div v-for="(valor, chave, idx) in amigo">
+        <p>{{chave}}: {{valor}}</p>
+    </div>
+    
+    <!-- array de objetos -->
+    <div v-for="(xx,idx) in pessoas" :key="idx">
+        <p>{{ idx }} - {{ xx.nome }}</p>
+        <p>{{ xx.cargo }}</p>
+    
+        <div v-for="(valor, chave, id) in xx">
+            <p>{{ id }}: {{ chave }} -> {{ valor }}</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            pessoas: [
+                {
+                    nome: 'Roberto Kalili', 
+                    cargo: 'gerente', 
+                    status: true
+                },
+                {
+                    nome: 'Paulo Castro', 
+                    cargo: 'supervisor', 
+                    status: false
+                },
+                {
+                    nome: 'Maria Paula', 
+                    cargo: 'encarregado', 
+                    status: true
+                },
+                {
+                    nome: 'Carla Alexandra', 
+                    cargo: 'encarregado', 
+                    status: true
+                }
+            ],
+            times: ['Corinthians','Redbull','Santos','Ibis','São Paulo','Palmeiras'],
+            amigo: {
+                nome: 'Roberto Kalili',
+                idade: 54,
+                genero: 'Masculino',
+                profissao: 'Professor'
+            }
+        }
+    })
+</script>
+
+<style>
+
+</style>

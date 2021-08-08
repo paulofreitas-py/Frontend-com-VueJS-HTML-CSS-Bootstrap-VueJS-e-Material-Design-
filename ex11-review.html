@@ -1,0 +1,115 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+
+<div id="app">
+    <div id="boxProgresso">
+        <div id="progress" :style="{'width' : pessoasAtivas + '%'}"></div>
+        <p>{{ pessoasAtivas + '%' }}</p>
+    </div>
+    <hr />
+    <div id="boxPessoas">
+        <div class='boxP' v-for="(xx,idx) in pessoas" :key="idx"
+            :class="[{'ativo':xx.status},{'inativo':!xx.status}]">
+            <h3 class='m0'>{{ xx.nome }}</h3>
+            <h4 class='m0'>{{ xx.cargo }}</h4>
+            <hr />
+            <button @click="xx.status = !xx.status">Mudar Status</button>
+        </div>
+    </div>
+    
+    <pre>
+    {{ pessoas }}
+    </pre>
+    <hr />
+    <pre>        
+    {{ pessoasAtivas }}
+    </pre>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            pessoas: [
+                {
+                    nome: 'Roberto Kalili', 
+                    cargo: 'gerente', 
+                    status: true
+                },
+                {
+                    nome: 'Paulo Castro', 
+                    cargo: 'supervisor', 
+                    status: false
+                },
+                {
+                    nome: 'Maria Paula', 
+                    cargo: 'encarregado', 
+                    status: true
+                },
+                {
+                    nome: 'Carla Alexandra', 
+                    cargo: 'encarregado', 
+                    status: true
+                }
+            ]
+        },
+        computed: {
+            pessoasAtivas() {
+                let pa = this.pessoas.filter(
+                    mx => mx.status
+                ).length;
+                porc = pa * 100 / this.pessoas.length;
+                return porc;
+            }
+        }
+    })
+</script>
+
+<style>
+    body {
+        font-family: 'Indie Flower', cursive;
+    }
+    #boxPessoas {
+        display: flex;
+        align-items: center;
+    }
+    .boxP {
+        width: 200px;
+        border: 1px dotted #d7d7d7;
+        background-color: #f7f7f7;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 7px;
+    }
+    .m0 {
+        margin: 0px;
+    }
+    .ativo {
+        background-color: #9af;
+    }
+    .inativo {
+        background-color: #faa;
+    }
+    /* Progresso */
+    #boxProgresso {
+        width: 75%;
+        height: 20px;
+        box-shadow: 0px 0px 10px #333;
+        margin: 20px auto;
+        position: relative;
+    }
+    #progress {
+        width: 25%;
+        height: 100%;
+        background-color: #35f;
+    }
+    #boxProgresso p {
+        position: absolute;
+        top: -17px;
+        left: 48%;
+    }
+    
+</style>

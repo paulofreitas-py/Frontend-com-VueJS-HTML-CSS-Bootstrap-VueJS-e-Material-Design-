@@ -1,0 +1,38 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <p>1. Exibir alerta quando clicar em um botao</p>
+    <button @click="alerta">Alerta</button>
+    <hr />
+    <p>2. Atualizar a variável valor ao digitar escutando keydown</p>
+    <input type='text' @keydown="mudaValor" />
+    <p>{{ valor }}</p>
+    <hr />
+    <p>2.1 Atualizar a variável valor ao digitar escutando keydown</p>
+    <input type='text' v-model="valor" />
+    <p>{{ valor }}</p>
+    <hr />
+    <p>3. Atualizar a variável valor dar ENTER</p>
+    <input type='text' @keyup.enter="mudaValor" />
+    <p>{{ valor }}</p>
+    <hr />
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            valor: ""
+        },
+        methods: {
+            alerta() {
+                alert("oieeeee - desafio 1");
+            },
+            mudaValor(e) {
+                console.log(e);
+                this.valor = e.target.value;
+            }
+        }
+    })
+</script>

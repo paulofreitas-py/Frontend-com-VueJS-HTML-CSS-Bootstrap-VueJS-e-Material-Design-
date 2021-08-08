@@ -1,0 +1,365 @@
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<style>
+
+  /* google fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+  *, html body {
+    font-family: 'Roboto', sans-serif;
+    background: #191919;
+    margin: 0 15px 0;
+  }
+
+  h1 {
+    color: #fff;
+    text-align: center;
+    margin: 30px 0;    
+  }
+
+  /* campo adicionar */
+  .campo-adicionar .campos {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .campo-adicionar .campos input {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    width: 48%;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 10px 20px;
+    margin: 0 0 40px 0;
+  }  
+
+  .campo-adicionar button {
+    width: 50%;
+    background: rgb(87,48,228);
+    background: -moz-linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    background: -webkit-linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    background: linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5730e4",endColorstr="#9813ac",GradientType=1);
+    display: flex;
+    margin: 0 auto 60px;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    padding: 10px;
+    font-size: 22px;
+    border: none;
+    border-radius: 6px;
+    transition: 0.3s;
+    cursor: pointer;
+  }   
+  
+  .campo-adicionar button:hover {
+    opacity: .7;
+  }
+
+  /* campo pessoas */
+  .campo-pessoas {
+    border-top: 1px #fff dotted;
+  }
+
+  .campo-pessoas h2 {
+    color: #fff;
+    margin: 0 0 10px 0;
+  }
+
+  .campo-pessoas .filtros {
+    margin: 0 0 50px;
+  }
+  
+  .campo-pessoas .filtros input[type="search"] {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    width: 30%;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 10px 20px;
+    margin: 0;
+  } 
+  
+  .campo-pessoas .filtros input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+    margin: 0 0 0 80px;
+  }  
+  
+  .campo-pessoas .filtros label {
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 5px;
+  }    
+
+  .campo-pessoas .tabela-pessoas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .campo-pessoas .tabela-pessoas .pessoa-item {
+    background-color: #f3f3f3;
+    width: 350px;
+    border-radius: 6px;
+    margin: 0 20px 20px;
+    padding: 20px;
+    position: relative;
+    clear: both;
+  }
+
+  .campo-pessoas .tabela-pessoas .pessoa-item h3, .campo-pessoas .tabela-pessoas .pessoa-item p, .campo-pessoas .tabela-pessoas .pessoa-item span {
+    background-color: #f3f3f3;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }  
+
+  .campo-pessoas .tabela-pessoas .pessoa-item h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .campo-pessoas .tabela-pessoas .pessoa-item p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }  
+
+  .campo-pessoas .tabela-pessoas .pessoa-item button {
+    background: rgb(87,48,228);
+    background: -moz-linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    background: -webkit-linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    background: linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5730e4",endColorstr="#9813ac",GradientType=1);
+    float: right;
+    margin: 0;
+    padding: 5px 10px;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+  } 
+  
+  .campo-pessoas .tabela-pessoas .pessoa-item button:hover {
+    opacity: .8;
+  }   
+
+  .campo-pessoas .tabela-pessoas .pessoa-item .status {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(219, 5, 5);
+    position: absolute;
+    top: 20px;
+    right: 0;
+  }
+
+  .campo-pessoas .tabela-pessoas .pessoa-item .status.online {
+    background-color: rgb(41, 175, 23);
+  }
+
+  .campo-pessoas .tabela-pessoas .pessoa-item span {
+    cursor: pointer;
+    color: blue;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  
+  .campo-pessoas .tabela-pessoas .pessoa-item span:hover {
+    text-decoration: underline;
+  }
+
+  /* campo barra de progresso */
+  .campo-barra {
+    border-top: 1px #fff dotted;
+    margin: 30px 0 50px;
+  }
+
+  .campo-barra .progresso {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(117, 117, 117);
+    position: relative;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .campo-barra p {
+    color: #fff;
+    font-weight: 500;
+    z-index: 3;
+    background-color: transparent;    
+  }
+
+  .campo-barra .barra {
+    background: rgb(87,48,228);
+    background: -moz-linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    background: -webkit-linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    background: linear-gradient(30deg, rgba(87,48,228,1) 0%, rgba(152,19,172,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5730e4",endColorstr="#9813ac",GradientType=1);    
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 6px;    
+    margin: 0;
+  }
+
+</style>
+
+<div id="app">
+
+  <div class="campo-adicionar">
+
+    <h1>Adicionar Pessoas</h1>
+
+    <div class="campos">
+      <input type="text" placeholder="Nome" id="nomePessoa" @keyup.enter="adicionarPessoa">
+      <input type="text" placeholder="Cargo" id="cargoPessoa" @keyup.enter="adicionarPessoa">
+    </div>
+
+    <button type="text" @click="adicionarPessoa">Adicionar Pessoa</button>    
+
+  </div>
+
+  <div class="campo-pessoas">
+
+    <h1>Pessoas</h1>
+
+    <h2>Filtros</h2>
+
+    <div class="filtros">
+      <input type="search" placeholder="Filtrar por nome" v-model="filtroNome">
+      <input id="filtroAtivo" type="checkbox" v-model="filtroAtivo">
+      <label for="filtroAtivo">Pessoas Ativas</label>
+    </div>
+
+    <div class="tabela-pessoas">
+      <div class="pessoa-item" v-for="(pessoa, idPessoa) in pessoasFiltradas" :key="idPessoa">
+        <h3>{{ pessoa.nome }}</h3>
+        <p>{{ pessoa.cargo }}</p>
+        <span @click="removerPessoa(idPessoa)">Remover pessoa</span>
+        <button @click="pessoa.status = !pessoa.status">Mudar status</button>
+        <div class="status" :class="{'online' : pessoa.status}"></div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="campo-barra">
+
+    <h1>Porcentagem de pessoas online</h1>
+
+    <div class="progresso">
+      <p>{{ progresso }}%</p>
+      <div class="barra" :style="{'width' : progresso + '%'}"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+  let app = new Vue({
+    el: "#app",
+    data: {
+      filtroAtivo: false,
+      filtroNome: "",
+      pessoas: [
+        {
+          nome : "Filipe",
+          cargo : "Aluno",
+          status : true
+        },
+        {
+          nome : "Naruto",
+          cargo : "Hokage",
+          status : true
+        },        
+        {
+          nome : "Luffy",
+          cargo : "Rei dos Piratas",
+          status : false
+        },                                              
+        {
+          nome : "Roberto",
+          cargo : "Professor",
+          status : true
+        }
+      ]
+    },
+    methods: {
+      adicionarPessoa() {
+        
+        let nomePessoa = $("#nomePessoa")
+        let cargoPessoa = $("#cargoPessoa")
+
+        if (nomePessoa.val() == "" && cargoPessoa.val() == "") {
+          alert("Nome ou cargo faltando. Tente novamente!")
+          return false;
+        }
+
+        this.pessoas.push({ nome : nomePessoa.val(), cargo : cargoPessoa.val(), status : false})
+
+        nomePessoa.val(null)
+        cargoPessoa.val(null)
+
+      },
+      removerPessoa(idPessoa) {
+        this.pessoas.splice(idPessoa, 1)
+      }        
+    },
+    computed: {
+      progresso() {
+
+        let progresso = this.pessoas.filter( pessoasAtivas => pessoasAtivas.status ).length * 100 / this.pessoas.length
+
+        progresso = progresso.toString()
+
+        progresso = progresso.substr(0, 4)
+
+        return progresso
+      },
+      pessoasAtivas() {
+
+        let pessoas = this.pessoas.filter(
+          filtro => filtro.status
+        ).length;
+
+        pessoas = pessoas * 100 / this.pessoas.length;
+        
+        return pessoas;
+      },
+      pessoasFiltradas() {
+          
+        let pessoas = this.pessoas
+        
+        pessoas = pessoas.filter(
+          filtro => filtro.nome.toLowerCase().indexOf(this.filtroNome.toLowerCase()) != -1
+        )
+
+        if (this.filtroAtivo) {
+          pessoas = pessoas.filter(
+            filtro => filtro.status
+          )
+        }
+        
+        return pessoas;
+      }
+    }
+  })
+
+</script>

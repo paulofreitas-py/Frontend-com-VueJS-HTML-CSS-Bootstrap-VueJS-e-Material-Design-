@@ -1,0 +1,40 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <div class='box'>
+        <button @click="diminui">-</button>
+        <p>{{ contador }}</p>
+        <button @click="aumenta">+</button>
+    </div>
+    <p>{{ contador>10 ? "Maior" : "Menor ou igual" }}</p>
+</div> 
+
+<!-- Comentário -->
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            contador: 0
+        },
+        methods: {
+            aumenta() {
+                this.contador++;                
+            },
+            diminui() {
+                if(this.contador>0) this.contador--;
+            }
+        }
+    })
+</script>
+
+<style>
+    .box {
+        width:100px;
+        height: 40px;
+        border: 1px solid #333;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+</style>

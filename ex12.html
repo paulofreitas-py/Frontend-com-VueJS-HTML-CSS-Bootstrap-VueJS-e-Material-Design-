@@ -1,0 +1,194 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+
+<div id="app">
+    <div class="boxCadastro">
+        <p>Nome: <input type="text" id="txtNome" /></p>
+        <p>Cargo: <input type="text" id="txtCargo" /></p>
+        <button @click="cadastrar">Cadastrar</button>
+        <div id="boxCounter">
+            Cadastrados<br />
+            <span style='font-size:40px; font-weight:bold'>
+            {{ pessoas.length }}
+            </span>
+        </div>
+    </div>
+    <hr />
+    <div id="boxProgresso">
+        <div id="progress" :style="{'width' : pessoasAtivas + '%'}"></div>
+        <p>{{ pessoasAtivas + '%' }}</p>
+    </div>
+    <hr />
+    <div id="boxFiltro">
+        <div>
+            <label>Nome</label>
+            <input type='text' v-model="fNome" />
+        </div>
+        <div>
+            <label>
+                <input type='checkbox' v-model="fAtivo" /> Somente ativos
+            </label>
+        </div>
+    </div>
+    <div id="boxPessoas">
+        <div class='boxP' v-for="(xx,idx) in pessoasFiltradas" :key="idx"
+            :class="[{'ativo':xx.status},{'inativo':!xx.status}]">
+            <h3 class='m0'>{{ xx.nome }}</h3>
+            <h4 class='m0'>{{ xx.cargo }}</h4>
+            <hr />
+            <div v-for="n in xx.notas">
+                {{ n }}
+            </div>
+            <hr />
+            <button @click="xx.status = !xx.status">Mudar Status</button>
+        </div>
+    </div>
+    
+    <pre>
+    {{ pessoas }}
+    </pre>
+    <hr />
+    <pre>        
+    {{ pessoasAtivas }}
+    </pre>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            pessoas: [
+                {
+                    nome: 'Roberto Kalili', 
+                    cargo: 'gerente', 
+                    status: true
+                },
+                {
+                    nome: 'Paulo Castro', 
+                    cargo: 'supervisor', 
+                    status: false,
+                    notas: [
+                        3, 4, 3.4, 2.5
+                    ]
+                },
+                {
+                    nome: 'Maria Paula', 
+                    cargo: 'encarregado', 
+                    status: true
+                },
+                {
+                    nome: 'Carla Alexandra', 
+                    cargo: 'encarregado', 
+                    status: true
+                }
+            ],
+            fNome: '',
+            fAtivo: false
+        },
+        methods: {
+            cadastrar() {
+                //cria uma instância de objeto (obj)
+                obj = new Object;
+                //guarda os dados do form no objeto
+                obj.nome = document.getElementById("txtNome").value;
+                obj.cargo = document.getElementById("txtCargo").value;
+                obj.status = true;
+                this.pessoas.push(obj);
+                document.getElementById("txtNome").value = "";
+                document.getElementById("txtCargo").value = "";
+            }
+        },
+        computed: {
+            pessoasAtivas() {
+                let pa = this.pessoas.filter(
+                    mx => mx.status
+                ).length;
+                porc = pa * 100 / this.pessoas.length;
+                return porc;
+            },
+            pessoasFiltradas() {
+                let p = this.pessoas;
+                let filtro = this.fNome.toLowerCase();
+                p = p.filter(
+                    mk => mk.nome.toLowerCase().indexOf(filtro)!=-1
+                );
+                if(this.fAtivo) {
+                    p = p.filter(
+                        mk => mk.status
+                    );
+                }
+                /* p = p.filter(
+                        mk => mk.status === this.fAtivo
+                    ) */
+                return p;
+            }
+        }
+    })
+</script>
+
+<style>
+    body {
+        font-family: 'Indie Flower', cursive;
+    }
+    #boxPessoas {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .boxP {
+        width: 200px;
+        border: 1px dotted #d7d7d7;
+        background-color: #f7f7f7;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 7px;
+    }
+    .m0 {
+        margin: 0px;
+    }
+    .ativo {
+        background-color: #9af;
+    }
+    .inativo {
+        background-color: #faa;
+    }
+    #boxFiltro {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 400px;
+    }
+    #boxCounter {
+        text-align: center;
+        font-size: 16px;
+        padding: 10px;
+        background-color: #939;
+        color: #fff;
+        border-radius: 6px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    /* Progresso */
+    #boxProgresso {
+        width: 75%;
+        height: 20px;
+        box-shadow: 0px 0px 10px #333;
+        margin: 20px auto;
+        position: relative;
+    }
+    #progress {
+        width: 25%;
+        height: 100%;
+        background-color: #35f;
+    }
+    #boxProgresso p {
+        position: absolute;
+        top: -17px;
+        left: 48%;
+    }
+    
+</style>

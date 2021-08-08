@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;
+        background-color: black;
+        color: white;
+        font-family: "Lexend", sans-serif;
+      }
+
+      header {
+        width: 100%;
+        height: 18vh;
+        font-size: 3vh;
+        background-image: url("https://www.tibco.com/sites/tibco/files/styles/banner_large/public/2021-04/main-banner.jpeg?itok=6BXZ4jnP");
+        background-position: center;
+        background-size: cover;
+      }
+
+      nav {
+        margin: 25px;
+      }
+
+      button {
+        background-color: rgb(105, 105, 105);
+        outline: none;
+        border: 0px;
+        color: white;
+        padding: 15px;
+        font-weight: bold;
+        font-family: "Lexend", sans-serif;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input {
+        padding: 14px;
+        outline: none;
+        border: 0px;
+        border-radius: 5px;
+        font-family: "Lexend", sans-serif;
+      }
+
+      .firstName {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .secondName {
+        font-size: 22px;
+      }
+
+      #driversBox {
+        padding: 2vh;
+        list-style-type: none;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px solid grey;
+        border-radius: 5px;
+        margin-bottom: 2vh;
+        transition: background-color 0.25s linear;
+      }
+
+      #driversBox:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgb(192, 190, 190);
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+    <div id="app">
+        <nav>
+          <button>Classificar por Idade</button>
+          <input type="text" v-model="fNome" placeholder="pesquisar por nome" />
+        </nav>
+      <div v-for="driver in driversFiltrados" :key="driver.id">
+        <div id="driversBox">
+          <span class="firstName">{{ driver.givenName }}</span>
+          <span class="secondName">{{ driver.familyName }}</span>
+          <li>Número: {{ driver.permanentNumber }}</li>
+          <li>Código: {{ driver.code }}</li>
+          <li><a v-bind:href="driver.url">Biografia</a></li>
+          <li>Data de Nascimento: {{ driver.dateOfBirth }}</li>
+          <li>Nacionalidade: {{ driver.nationality }}</li>
+        </div>
+      </div>
+      <pre>{{ info }}</pre>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data() {
+          return {
+            info: null,
+            fNome: ''
+          };
+        },
+        computed: {
+          driversFiltrados() {
+            let p = this.info;
+            let filtro = this.fNome.toLowerCase();
+            p = p.filter(
+            (pilot) =>
+                pilot.givenName
+                .toLowerCase()
+                .indexOf(filtro) != -1
+                );
+            return p;
+          },
+        },
+        mounted() {
+          axios
+            .get("http://ergast.com/api/f1/2021/drivers.json")
+            .then(
+              (response) =>
+                (this.info = response.data.MRData.DriverTable.Drivers)
+            );
+        },
+      });
+    </script>
+  </body>
+</html>

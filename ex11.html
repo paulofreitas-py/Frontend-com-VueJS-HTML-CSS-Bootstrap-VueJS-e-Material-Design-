@@ -1,0 +1,76 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <h1>Funcionários da Empresa XYZ</h1>
+    <div class='box' 
+        v-for="(p,idx) in pessoas" 
+        :key="idx"
+        :class="{'ativo':p.status,'inativo':!p.status}"
+        @click="p.status = !p.status">
+        <h3 style='margin:0px'>{{ idx+1 }} - {{ p.nome }}</h3>
+        <p style='margin:0px'>{{ p.cargo }}</p>
+    </div>
+    <p>Ativos: {{ marcados }}</p>
+    <p>Ativos (%): {{ marcadosP }}</p>
+    
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            pessoas: [
+                {
+                    nome: 'Roberto Kalili', 
+                    cargo: 'gerente', 
+                    status: true
+                },
+                {
+                    nome: 'Paulo Castro', 
+                    cargo: 'supervisor', 
+                    status: false
+                },
+                {
+                    nome: 'Maria Paula', 
+                    cargo: 'encarregado', 
+                    status: true
+                },
+                {
+                    nome: 'Carla Alexandra', 
+                    cargo: 'encarregado', 
+                    status: true
+                }
+            ]
+        },
+        computed: {
+            marcados() {
+                let m = this.pessoas.filter(
+                    p => p.status
+                ).length;
+                return m;
+            },
+            marcadosP() {
+                m = this.marcados;
+                t = this.pessoas.length;
+                return m * 100 / t;
+            }
+        }
+    })
+</script>
+
+<style>
+    .box {
+        margin: 10px;
+        border:1px solid #333;
+        width: 250px;
+        background-color: #d7d7d7;
+        padding: 15px;
+    }
+    .ativo {
+        background-color: #8af
+    }
+    .inativo {
+        background-color: #faa
+    }
+</style>

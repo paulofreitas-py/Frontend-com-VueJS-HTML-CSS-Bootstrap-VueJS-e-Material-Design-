@@ -1,0 +1,70 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <input type="text" v-model="primeiroNome" />
+    <input type="text" v-model="ultimoNome" />
+    <input type="text" v-model="dtNasc" />
+
+    <p>{{ nomeCompleto }} - {{ idade }}</p>
+    <p>{{ reverso }}</p>
+
+    <div id="boxCont">
+        <button @click="contador--"> - </button>
+        <p>{{ contador }}</p>
+        <button @click="contador++"> + </button>
+    </div>
+    <p>{{ movimento }}</p>
+    <p>{{ raiz }}</p>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            primeiroNome: '',
+            ultimoNome: '',
+            dtNasc: '',
+            contador: 0,
+            movimento: ''
+        },
+        computed: {
+            nomeCompleto() {
+                return this.primeiroNome + ' ' + this.ultimoNome;
+            },
+            idade() {
+                
+                let aDt = this.dtNasc.split("/");
+                let ano_atual = new Date().getFullYear();
+                let ano_informado = aDt[2];
+                let id = ano_atual - ano_informado;
+                return (isNaN(id) ? "" : id);
+            },
+            reverso() {
+                return this.nomeCompleto.split('').reverse().join('');
+            },
+            raiz() {
+                return Math.sqrt(this.contador);
+            }
+        },
+        watch: {
+            contador(novo, velho) {
+                if(novo > velho) this.movimento= "subindo";
+                if(novo == velho) this.movimento= "parado";
+                if(novo < velho) this.movimento= "descendo";
+            }
+        }
+    })
+</script>
+
+<style>
+    #boxCont {
+        display: flex;
+        flex-direction: row;
+        width: 100px;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        border: 1px solid #333;
+    }
+</style>

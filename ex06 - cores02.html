@@ -1,0 +1,42 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <div class='box' 
+        :style="{'background-color' : cor}">
+    </div>
+    <select v-model="cor">
+        <option value='#0f0'>Verde</option>
+        <option value='#000'>Preto</option>
+        <option value='#ff0'>Amarelo</option>
+        <option value='#0ff'>Cyan</option>
+    </select>
+
+    <input type="text" @keyup.enter="mudaCor" />
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            cor: "#0f0"
+        },
+        methods: {
+            mudaCor(e) {
+                this.cor = e.target.value;
+            }
+        }
+    })
+</script>
+
+<style>
+    .box {
+        border: 1px solid #333;
+        width: 150px;
+        height: 150px;
+        background: #ccc;
+    }
+    .vermelho {
+        background-color: #f00;
+    }
+</style>
